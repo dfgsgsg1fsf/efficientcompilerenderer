@@ -1,11 +1,17 @@
-function quickSort(arr) {
-  if (arr.length <= 1) return arr;
-  const pivot = arr[Math.floor(arr.length / 2)];
-  const left = [];
-  const right = [];
-  for (let i = 0; i < arr.length; i++) {
-    if (arr[i] < pivot) left.push(arr[i]);
-    else if (arr[i] > pivot) right.push(arr[i]);
+function levelOrder(root) {
+  if (!root) return [];
+  const result = [];
+  const queue = [root];
+  while (queue.length) {
+    const levelSize = queue.length;
+    const currentLevel = [];
+    for (let i = 0; i < levelSize; i++) {
+      const node = queue.shift();
+      currentLevel.push(node.val);
+      if (node.left) queue.push(node.left);
+      if (node.right) queue.push(node.right);
+    }
+    result.push(currentLevel);
   }
-  return quickSort(left).concat([pivot]).concat(quickSort(right));
+  return result;
 }
