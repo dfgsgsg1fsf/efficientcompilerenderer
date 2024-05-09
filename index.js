@@ -1,24 +1,22 @@
-const mergeSort = (arr) => {
-  if (arr.length <= 1) {
-    return arr;
-  }
-  const mid = Math.floor(arr.length / 2);
-  const left = mergeSort(arr.slice(0, mid));
-  const right = mergeSort(arr.slice(mid));
-  return merge(left, right);
-};
-const merge = (left, right) => {
-  let result = [];
-  let leftIndex = 0;
-  let rightIndex = 0;
-  while (leftIndex < left.length && rightIndex < right.length) {
-    if (left[leftIndex] < right[rightIndex]) {
-      result.push(left[leftIndex]);
-      leftIndex++;
-    } else {
-      result.push(right[rightIndex]);
-      rightIndex++;
+function removeKdigits(num, k) {
+  const stack = [];
+  for (const digit of num) {
+    while (k > 0 && stack.length && stack[stack.length - 1] > digit) {
+      stack.pop();
+      k--;
     }
+    stack.push(digit);
   }
-  return result.concat(left.slice(leftIndex)).concat(right.slice(rightIndex));
-};
+  while (k > 0) {
+    stack.pop();
+    k--;
+  }
+  let result = "";
+  let leadingZero = true;
+  for (const digit of stack) {
+    if (leadingZero && digit === "0") continue;
+    leadingZero = false;
+    result += digit;
+  }
+  return result || "0";
+}
